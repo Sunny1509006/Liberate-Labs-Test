@@ -1,0 +1,25 @@
+# Competitor Analysis Report
+
+## Executive Summary
+
+This analysis examines {{ data.competitor_count }} key competitors in the {{ data.industry }} industry.
+
+### Key Findings
+
+{% for finding in data.key_findings %}
+- {{ finding }}
+{% endfor %}
+
+### Market Overview
+
+{{ data.market_overview }}
+
+### Competitive Landscape
+
+{{ data.competitive_landscape }}
+
+### Strategic Implications
+
+{% for implication in data.strategic_implications %}
+- {{ implication }}
+{% endfor %}

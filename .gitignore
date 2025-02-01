@@ -1,0 +1,11 @@
+__pycache__
+data
+liberatelabenv
+models/__pycache__
+scraper/__pycache__
+
+node_modules
+.env
+
+
+
