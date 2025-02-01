@@ -29,10 +29,10 @@ class DBManager:
         data['last_updated'] = datetime.utcnow().isoformat()
         return data
 
-    async def get_competitor_data(self, competitor_name: str) -> Optional[Dict]:
+    async def get_competitor_data(self, competitor_identifier: str) -> Optional[Dict]:
         """Retrieve competitor data if it exists"""
         try:
-            doc_id = self._generate_id(competitor_name)
+            doc_id = self._generate_id(competitor_identifier)
             
             try:
                 result = self.competitors_collection.get(
@@ -63,12 +63,20 @@ class DBManager:
     async def store_competitor_data(self, competitor_data: Dict) -> bool:
         """Store competitor analysis data"""
         try:
-            doc_id = self._generate_id(competitor_data['name'])
+            # Extract the identifier (website or name) from the nested structure
+            identifier = competitor_data.get('company_info', {}).get('website', '') or \
+                        competitor_data.get('company_info', {}).get('name', '')
+            
+            if not identifier:
+                raise ValueError("No valid identifier (website or name) found in competitor data")
+            
+            doc_id = self._generate_id(identifier)
             
             # Add timestamp and prepare metadata
             data_to_store = self._add_timestamp(competitor_data.copy())
             metadata = {
-                "name": competitor_data['name'],
+                "name": competitor_data.get('company_info', {}).get('name', ''),
+                "website": competitor_data.get('company_info', {}).get('website', ''),
                 "stored_at": datetime.utcnow().isoformat()
             }
             

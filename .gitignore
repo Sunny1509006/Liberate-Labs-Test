@@ -6,6 +6,7 @@ scraper/__pycache__
 
 node_modules
 .env
+docs
 
 
 
